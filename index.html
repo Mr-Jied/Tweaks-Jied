@@ -2159,6 +2159,27 @@
                             <div class="hero-buttons" style="justify-content: flex-start; flex-wrap: wrap;">
                                 <button class="btn btn-primary" onclick="downloadFile('ISLC')">
                                     ⬇️ Descargar ISLC
+                                    <!-- El resto de tu página web -->
+
+    <script>
+        // Aquí puedes tener otras funciones tuyas de JavaScript...
+
+        // Y aquí añades la función de descarga que te acabo de dar:
+        function downloadFile(tipo) {
+            if (tipo === 'ISLC') {
+                const url = 'Intelligent standby list cleaner ISLC.exe';
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'ISLC.exe';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+    </script>
+</body>
+</html>
+
                                 </button>
                                 <button class="btn btn-outline" onclick="scrollToSection('tipos-ram')">
                                     📊 Ver tipos de RAM
