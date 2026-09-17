@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="TechOptimize Hub — herramientas para diagnosticar, medir y optimizar el rendimiento de tu PC.">
+<title>TechOptimize Hub | Herramientas para tu PC</title>
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5092160607456813" crossorigin="anonymous"></script>
+
+<style>
+:root{
+  --bg:#080b12;
+  --bg2:#0d111a;
+  --card:#111722;
+  --card2:#151c29;
+  --border:#222c3c;
+  --text:#f4f7fb;
+  --muted:#91a0b5;
+  --primary:#7c5cff;
+  --primary2:#5d3df5;
+  --cyan:#32d7ff;
+  --green:#42e695;
+  --yellow:#ffbd59;
+  --red:#ff6b7a;
+  --shadow:0 20px 60px rgba(0,0,0,.38);
+  --radius:18px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:82px}
+body{
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 0%,rgba(124,92,255,.15),transparent 28rem),
+    radial-gradient(circle at 90% 25%,rgba(50,215,255,.08),transparent 25rem),
+    linear-gradient(180deg,var(--bg),#090d15 50%,var(--bg));
+  line-height:1.6;
+  min-height:100vh;
+}
+body.modal-open{overflow:hidden}
+a{color:inherit}
+button,input{font:inherit}
+
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:#080b12}
+::-webkit-scrollbar-thumb{background:#303b50;border-radius:20px}
+::-webkit-scrollbar-thumb:hover{background:#4a5870}
+
+/* NAVBAR */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:72px;
+  background:rgba(8,11,18,.78);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-inner{
+  max-width:1380px;height:100%;margin:auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:25px;
+}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.logo-mark{
+  width:40px;height:40px;border-radius:12px;
+  display:grid;place-items:center;
+  font-weight:900;
+  background:linear-gradient(135deg,var(--primary),var(--cyan));
+  box-shadow:0 0 25px rgba(124,92,255,.35);
+}
+.logo-text{font-weight:850;font-size:1.08rem;letter-spacing:.2px}
+.logo-text span{color:var(--cyan)}
+.nav-links{display:flex;gap:5px;list-style:none}
+.nav-links a{
+  text-decoration:none;color:var(--muted);
+  padding:9px 13px;border-radius:10px;font-size:.9rem;
+  transition:.2s;
+}
+.nav-links a:hover{color:white;background:rgba(124,92,255,.12)}
+.nav-download{
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff!important;box-shadow:0 8px 25px rgba(124,92,255,.25);
+}
+.menu-btn{display:none;background:none;border:0;color:white;font-size:25px;cursor:pointer}
+
+/* HERO */
+.hero{
+  min-height:650px;padding:145px 24px 85px;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.grid-bg{
+  position:absolute;inset:0;opacity:.35;
+  background-image:
+    linear-gradient(rgba(124,92,255,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,92,255,.06) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:linear-gradient(to bottom,#000,transparent 90%);
+}
+.hero-content{position:relative;z-index:1;text-align:center;max-width:950px}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border:1px solid rgba(124,92,255,.3);
+  background:rgba(124,92,255,.09);border-radius:999px;
+  color:#bdb3ff;font-size:.78rem;font-weight:750;
+  text-transform:uppercase;letter-spacing:1px;
+  margin-bottom:24px;
+}
+.badge-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px var(--green)}
+.hero h1{
+  font-size:clamp(2.7rem,7vw,5.7rem);
+  line-height:1.02;letter-spacing:-3px;font-weight:950;
+  margin-bottom:22px;
+}
+.gradient{
+  background:linear-gradient(110deg,#a99cff,var(--primary),var(--cyan));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{max-width:700px;margin:0 auto;color:var(--muted);font-size:1.1rem}
+.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:34px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border:1px solid var(--border);border-radius:12px;
+  padding:13px 19px;text-decoration:none;font-weight:750;
+  cursor:pointer;transition:.2s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{
+  color:white;border-color:transparent;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  box-shadow:0 10px 30px rgba(124,92,255,.28);
+}
+.btn-secondary{background:rgba(255,255,255,.025);color:#dce4ef}
+.btn-secondary:hover{border-color:#3a465b;background:rgba(255,255,255,.05)}
+
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  max-width:700px;margin:65px auto 0;
+  border:1px solid var(--border);background:rgba(17,23,34,.65);
+  border-radius:16px;overflow:hidden;box-shadow:var(--shadow);
+}
+.stat{padding:18px;border-right:1px solid var(--border)}
+.stat:last-child{border-right:0}
+.stat strong{display:block;font-size:1.35rem}
+.stat span{font-size:.75rem;color:var(--muted)}
+
+/* MAIN */
+.container{max-width:1380px;margin:auto;padding:0 24px}
+.ad{
+  min-height:90px;border:1px dashed #263146;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  color:#4e5b70;font-size:.72rem;letter-spacing:1.5px;
+  text-transform:uppercase;margin:18px 0 70px;
+  background:rgba(17,23,34,.35);
+}
+.section{padding:40px 0 85px}
+.section-head{text-align:center;margin-bottom:38px}
+.eyebrow{
+  color:var(--cyan);font-size:.73rem;text-transform:uppercase;
+  letter-spacing:2px;font-weight:800;margin-bottom:8px;
+}
+.section-head h2{font-size:clamp(1.9rem,4vw,2.8rem);letter-spacing:-1px}
+.section-head p{color:var(--muted);max-width:650px;margin:10px auto 0}
+
+/* TOOLBAR */
+.toolbar{
+  display:flex;gap:12px;align-items:center;justify-content:space-between;
+  margin-bottom:24px;flex-wrap:wrap;
+}
+.search{
+  flex:1;min-width:240px;position:relative;
+}
+.search input{
+  width:100%;height:48px;padding:0 17px 0 45px;
+  border:1px solid var(--border);border-radius:12px;
+  background:var(--card);color:white;outline:none;
+}
+.search input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(124,92,255,.1)}
+.search-icon{position:absolute;left:16px;top:12px;color:#6d7b91}
+.filters{display:flex;gap:7px;flex-wrap:wrap}
+.filter{
+  border:1px solid var(--border);background:var(--card);
+  color:var(--muted);padding:9px 12px;border-radius:10px;
+  cursor:pointer;font-size:.82rem;transition:.2s;
+}
+.filter:hover,.filter.active{
+  color:#fff;border-color:rgba(124,92,255,.5);
+  background:rgba(124,92,255,.13);
+}
+
+/* TOOL CARDS */
+.tools-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+.tool-card{
+  position:relative;overflow:hidden;
+  border:1px solid var(--border);border-radius:var(--radius);
+  background:linear-gradient(180deg,rgba(21,28,41,.98),rgba(13,18,27,.98));
+  transition:.25s;
+}
+.tool-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(124,92,255,.45);
+  box-shadow:0 18px 45px rgba(0,0,0,.3),0 0 30px rgba(124,92,255,.08);
+}
+.tool-card.hidden{display:none}
+.tool-top{height:3px;background:linear-gradient(90deg,var(--primary),var(--cyan))}
+.tool-body{padding:21px}
+.tool-head{display:flex;align-items:flex-start;gap:14px}
+.tool-icon{
+  width:52px;height:52px;border-radius:14px;flex:0 0 auto;
+  display:grid;place-items:center;font-size:24px;
+  background:rgba(124,92,255,.12);
+  border:1px solid rgba(124,92,255,.18);
+}
+.tool-title{flex:1}
+.tool-title h3{font-size:1.06rem;margin-bottom:5px}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{
+  padding:3px 8px;border-radius:999px;font-size:.66rem;
+  font-weight:800;border:1px solid #2b374b;color:#9eacc0;
+  background:#101722;
+}
+.tag.free{color:var(--green);border-color:rgba(66,230,149,.22);background:rgba(66,230,149,.06)}
+.tag.system{color:#9fbcff;border-color:rgba(112,145,255,.22);background:rgba(112,145,255,.06)}
+.tool-desc{color:var(--muted);font-size:.87rem;margin:17px 0;min-height:70px}
+.tool-meta{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;
+}
+.meta{
+  background:#0c121c;border:1px solid #1d2736;border-radius:10px;padding:9px 10px;
+}
+.meta small{display:block;color:#607087;font-size:.63rem;text-transform:uppercase;letter-spacing:.7px}
+.meta span{font-size:.78rem;color:#d9e1ec;font-weight:650}
+.card-actions{display:grid;grid-template-columns:1fr 45px;gap:8px}
+.download{
+  border:0;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary2));
+  color:#fff;font-weight:800;cursor:pointer;text-decoration:none;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:43px;transition:.2s;
+}
+.download:hover{filter:brightness(1.12);box-shadow:0 7px 20px rgba(124,92,255,.25)}
+.info{
+  border:1px solid var(--border);border-radius:10px;background:#101722;
+  color:#cbd5e3;cursor:pointer;font-size:17px;transition:.2s;
+}
+.info:hover{border-color:var(--primary);color:#fff;background:rgba(124,92,255,.1)}
+.no-results{
+  display:none;text-align:center;color:var(--muted);
+  border:1px dashed var(--border);border-radius:14px;padding:35px;
+}
+.no-results.show{display:block}
+
+/* GUIDE */
+.guide{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:20px;
+}
+.panel{
+  border:1px solid var(--border);background:var(--card);
+  border-radius:var(--radius);padding:26px;
+}
+.panel h3{font-size:1.2rem;margin-bottom:12px}
+.panel p,.panel li{color:var(--muted);font-size:.9rem}
+.steps{list-style:none;display:grid;gap:13px;margin-top:18px}
+.steps li{display:flex;gap:12px;align-items:flex-start}
+.step{
+  width:28px;height:28px;flex:0 0 auto;border-radius:9px;
+  display:grid;place-items:center;font-size:.75rem;font-weight:900;
+  color:white;background:linear-gradient(135deg,var(--primary),var(--primary2));
+}
+.notice{
+  margin-top:18px;padding:13px 15px;border-radius:12px;
+  border:1px solid rgba(255,189,89,.2);background:rgba(255,189,89,.06);
+  color:#cdbb98;font-size:.82rem;
+}
+.file-tree{
+  margin-top:17px;border:1px solid var(--border);border-radius:12px;
+  background:#090e16;padding:14px;font-family:Consolas,monospace;
+  color:#aebbd0;font-size:.82rem;line-height:1.9;
+}
+.file-tree b{color:#fff}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);background:#080b12;padding:42px 24px 30px}
+.footer-inner{max-width:1380px;margin:auto;display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.footer-brand p{color:var(--muted);font-size:.8rem;margin-top:7px}
+.footer-links{display:flex;gap:18px}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:.8rem}
+.footer-links a:hover{color:white}
+.copyright{max-width:1380px;margin:28px auto 0;padding-top:20px;border-top:1px solid var(--border);color:#536075;font-size:.72rem}
+
+/* MODAL */
+.modal{
+  position:fixed;inset:0;z-index:2000;display:none;
+  background:rgba(2,4,8,.78);backdrop-filter:blur(12px);
+  padding:20px;align-items:center;justify-content:center;
+}
+.modal.open{display:flex}
+.modal-box{
+  width:min(720px,100%);max-height:88vh;overflow:auto;
+  background:#111722;border:1px solid #2b3749;border-radius:22px;
+  box-shadow:0 30px 100px rgba(0,0,0,.55);
+}
+.modal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:15px;padding:21px 24px;border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:rgba(17,23,34,.96);backdrop-filter:blur(10px);
+}
+.modal-title{display:flex;align-items:center;gap:12px}
+.modal-title-icon{
+  width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
+  background:rgba(124,92,255,.13);font-size:20px;
+}
+.modal-title h3{font-size:1.1rem}
+.close{
+  width:36px;height:36px;border:1px solid var(--border);border-radius:9px;
+  background:#0d131d;color:#aab6c7;cursor:pointer;font-size:20px;
+}
+.close:hover{color:white;border-color:#47566e}
+.modal-content{padding:24px}
+.modal-content h4{margin:20px 0 7px;color:#fff}
+.modal-content h4:first-child{margin-top:0}
+.modal-content p,.modal-content li{color:var(--muted);font-size:.9rem}
+.modal-content ul{padding-left:20px}
+.modal-download{
+  margin-top:24px;width:100%;min-height:46px;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;right:22px;bottom:22px;z-index:3000;
+  background:#151c29;border:1px solid #303d52;border-radius:12px;
+  padding:13px 16px;color:#e7edf5;box-shadow:var(--shadow);
+  transform:translateY(20px);opacity:0;pointer-events:none;transition:.25s;
+  font-size:.84rem;
+}
+.toast.show{transform:none;opacity:1}
+
+/* RESPONSIVE */
+@media(max-width:1050px){
+  .tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .guide{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .nav-links{display:none}
+  .menu-btn{display:block}
+  .nav-links.mobile-open{
+    display:flex;position:absolute;top:72px;left:15px;right:15px;
+    flex-direction:column;background:#0e141f;border:1px solid var(--border);
+    border-radius:14px;padding:8px;
+  }
+  .nav-links.mobile-open a{display:block}
+  .hero{min-height:600px;padding-top:125px}
+  .hero h1{letter-spacing:-2px}
+  .stats{grid-template-columns:1fr}
+  .stat{border-right:0;border-bottom:1px solid var(--border)}
+  .stat:last-child{border-bottom:0}
+  .tools-grid{grid-template-columns:1fr}
+  .toolbar{align-items:stretch}
+  .search{min-width:100%}
+  .filters{width:100%}
+  .filter{flex:1}
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="logo" href="#inicio" aria-label="TechOptimize Hub">
+      <div class="logo-mark">T</div>
+      <div class="logo-text">TechOptimize <span>Hub</span></div>
+    </a>
+
+    <nav>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#herramientas">Herramientas</a></li>
+        <li><a href="#instalacion">Instalación</a></li>
+        <li><a class="nav-download" href="#herramientas">Descargar apps</a></li>
+      </ul>
+    </nav>
+
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+  </div>
+</header>
+
+<main id="inicio">
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-content">
+    <div class="badge"><span class="badge-dot"></span> Herramientas para Windows</div>
+    <h1>Optimiza tu PC.<br><span class="gradient">Mide. Diagnostica. Mejora.</span></h1>
+    <p>
+      Un catálogo limpio de herramientas para conocer tu hardware, analizar rendimiento,
+      comprobar latencias y ajustar Windows para gaming y uso diario.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#herramientas">⚡ Ver herramientas</a>
+      <a class="btn btn-secondary" href="#instalacion">📦 Cómo instalar</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><strong>10</strong><span>Herramientas disponibles</span></div>
+      <div class="stat"><strong>ZIP</strong><span>Descargas comprimidas</span></div>
+      <div class="stat"><strong>Windows</strong><span>Enfoque principal</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="ad">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5092160607456813"
+         data-ad-slot="1484546988" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+<section class="section" id="herramientas">
+  <div class="section-head">
+    <div class="eyebrow">Biblioteca</div>
+    <h2>Todas tus herramientas en un solo sitio</h2>
+    <p>Busca una aplicación, filtra por función y pulsa <b>Descargar</b> para obtener su archivo comprimido.</p>
+  </div>
+
+  <div class="toolbar">
+    <label class="search">
+      <span class="search-icon">⌕</span>
+      <input id="searchInput" type="search" placeholder="Buscar CPU-Z, GPU-Z, LatencyMon..." autocomplete="off">
+    </label>
+
+    <div class="filters" aria-label="Filtros">
+      <button class="filter active" data-filter="all">Todas</button>
+      <button class="filter" data-filter="hardware">Hardware</button>
+      <button class="filter" data-filter="monitoring">Monitorización</button>
+      <button class="filter" data-filter="latency">Latencia</button>
+      <button class="filter" data-filter="network">Red</button>
+      <button class="filter" data-filter="system">Sistema</button>
+    </div>
+  </div>
+
+  <div class="tools-grid" id="toolsGrid">
+
+    <article class="tool-card" data-category="hardware" data-search="cpu-z cpuz cpu procesador hardware información">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">🧠</div>
+          <div class="tool-title"><h3>CPU-Z</h3><div class="tags"><span class="tag free">Gratis</span><span class="tag">Hardware</span></div></div>
+        </div>
+        <p class="tool-desc">Identifica procesador, placa base, memoria RAM y otros datos técnicos de tu sistema.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>Información CPU/RAM</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/CPU-Z.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('CPU-Z')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-category="hardware monitoring" data-search="crystaldiskinfo crystal disk info ssd hdd nvme salud disco temperatura">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">💾</div>
+          <div class="tool-title"><h3>CrystalDiskInfo</h3><div class="tags"><span class="tag free">Gratis</span><span class="tag system">Almacenamiento</span></div></div>
+        </div>
+        <p class="tool-desc">Consulta el estado, temperatura, horas de uso y datos S.M.A.R.T. de SSD, HDD y NVMe.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>Salud del disco</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/CrystalDiskInfo.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('CrystalDiskInfo')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-category="hardware monitoring" data-search="hwinfo hwinfo64 hardware monitor sensores temperatura cpu gpu ram">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">📊</div>
+          <div class="tool-title"><h3>HWiNFO64</h3><div class="tags"><span class="tag free">Gratis</span><span class="tag">Sensores</span></div></div>
+        </div>
+        <p class="tool-desc">Monitorización detallada de sensores y componentes: temperaturas, voltajes, frecuencias, uso y más.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>Monitorización</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/HWiNFO64.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('HWiNFO64')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-category="hardware system" data-search="quick cpu quickcpu ryzen cpu energía frecuencia windows">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">⚙️</div>
+          <div class="tool-title"><h3>Quick-CPU</h3><div class="tags"><span class="tag free">Gratis</span><span class="tag system">Sistema</span></div></div>
+        </div>
+        <p class="tool-desc">Permite consultar y ajustar determinados parámetros relacionados con CPU, energía y estados de rendimiento.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>CPU / energía</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/Quick-CPU.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('Quick-CPU')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-category="hardware monitoring" data-search="gpu-z gpuz tarjeta grafica gpu vram pci express bios">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">🎮</div>
+          <div class="tool-title"><h3>GPU-Z</h3><div class="tags"><span class="tag free">Gratis</span><span class="tag">GPU</span></div></div>
+        </div>
+        <p class="tool-desc">Muestra información detallada de la tarjeta gráfica, VRAM, bus PCIe, BIOS, frecuencias y sensores.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>Información GPU</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/GPU-Z.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('GPU-Z')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-category="latency" data-search="latencymon latency mon latencia dpc isr drivers audio stutter">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">⏱️</div>
+          <div class="tool-title"><h3>LatencyMon</h3><div class="tags"><span class="tag free">Gratis</span><span class="tag">Latencia</span></div></div>
+        </div>
+        <p class="tool-desc">Analiza latencias DPC/ISR y ayuda a detectar controladores o procesos que puedan causar problemas de respuesta.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>Diagnóstico DPC/ISR</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/LatencyMon.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('LatencyMon')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-category="latency system" data-search="msi utility msi mode utility interrupt policy gpu usb nvidia">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">🛠️</div>
+          <div class="tool-title"><h3>MSI Utility</h3><div class="tags"><span class="tag">Avanzado</span><span class="tag">MSI Mode</span></div></div>
+        </div>
+        <p class="tool-desc">Herramienta avanzada para visualizar y gestionar determinados ajustes de interrupciones MSI en dispositivos compatibles.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>Interrupciones</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/MSI-Utility.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('MSI Utility')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-category="network" data-search="tcp optimizer tcpoptimizer internet red tcp windows ping mtu rwin">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">🌐</div>
+          <div class="tool-title"><h3>TCP Optimizer</h3><div class="tags"><span class="tag free">Gratis</span><span class="tag system">Red</span></div></div>
+        </div>
+        <p class="tool-desc">Permite consultar y modificar parámetros de red de Windows relacionados con TCP/IP y configuración de conexión.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>Red / TCP-IP</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/TCP-Optimizer.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('TCP Optimizer')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-category="latency system" data-search="timer resolution timerresolution windows temporizador 1ms latencia">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">⏲️</div>
+          <div class="tool-title"><h3>Timer Resolution</h3><div class="tags"><span class="tag free">Gratis</span><span class="tag">Windows</span></div></div>
+        </div>
+        <p class="tool-desc">Herramienta para consultar y trabajar con la resolución del temporizador de Windows en sistemas compatibles.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>Temporizador</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/TimerResolution.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('Timer Resolution')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-category="system" data-search="wo mic womic micrófono android windows audio">
+      <div class="tool-top"></div><div class="tool-body">
+        <div class="tool-head">
+          <div class="tool-icon">🎙️</div>
+          <div class="tool-title"><h3>WO Mic</h3><div class="tags"><span class="tag free">Gratis</span><span class="tag">Audio</span></div></div>
+        </div>
+        <p class="tool-desc">Permite utilizar un dispositivo móvil como fuente de micrófono para un PC mediante los métodos compatibles.</p>
+        <div class="tool-meta"><div class="meta"><small>Función</small><span>Micrófono</span></div><div class="meta"><small>Formato</small><span>ZIP</span></div></div>
+        <div class="card-actions">
+          <a class="download" href="downloads/WO-Mic.zip" download>⬇ Descargar</a>
+          <button class="info" onclick="openInfo('WO Mic')" title="Más información">ⓘ</button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+  <div class="no-results" id="noResults">No se ha encontrado ninguna herramienta con esa búsqueda.</div>
+</section>
+
+<section class="section" id="instalacion">
+  <div class="section-head">
+    <div class="eyebrow">Descargas</div>
+    <h2>Así funcionará tu biblioteca</h2>
+    <p>Los botones de esta página apuntan a archivos ZIP dentro de la carpeta <b>downloads</b>.</p>
+  </div>
+
+  <div class="guide">
+    <div class="panel">
+      <h3>📦 Cómo preparar las descargas</h3>
+      <p>Sube cada carpeta comprimida a tu repositorio manteniendo los nombres de archivo utilizados por esta página.</p>
+      <ol class="steps">
+        <li><span class="step">1</span><span>Descarga o prepara el ZIP de cada herramienta.</span></li>
+        <li><span class="step">2</span><span>Crea una carpeta llamada <b>downloads</b> al lado de <b>index.html</b>.</span></li>
+        <li><span class="step">3</span><span>Mete dentro los 10 archivos ZIP.</span></li>
+        <li><span class="step">4</span><span>Al pulsar <b>Descargar</b>, el navegador abrirá el ZIP correspondiente.</span></li>
+      </ol>
+      <div class="notice">⚠️ Para herramientas avanzadas como MSI Utility, revisa siempre los cambios que vas a aplicar antes de modificarlos.</div>
+    </div>
+
+    <div class="panel">
+      <h3>📁 Estructura recomendada</h3>
+      <p>Tu repositorio puede quedar exactamente así:</p>
+      <div class="file-tree">
+        <b>TechOptimize-Hub/</b><br>
+        ├── index.html<br>
+        └── <b>downloads/</b><br>
+        &nbsp;&nbsp;&nbsp;├── CPU-Z.zip<br>
+        &nbsp;&nbsp;&nbsp;├── CrystalDiskInfo.zip<br>
+        &nbsp;&nbsp;&nbsp;├── HWiNFO64.zip<br>
+        &nbsp;&nbsp;&nbsp;├── Quick-CPU.zip<br>
+        &nbsp;&nbsp;&nbsp;├── GPU-Z.zip<br>
+        &nbsp;&nbsp;&nbsp;├── LatencyMon.zip<br>
+        &nbsp;&nbsp;&nbsp;├── MSI-Utility.zip<br>
+        &nbsp;&nbsp;&nbsp;├── TCP-Optimizer.zip<br>
+        &nbsp;&nbsp;&nbsp;├── TimerResolution.zip<br>
+        &nbsp;&nbsp;&nbsp;└── WO-Mic.zip
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <strong>TechOptimize Hub</strong>
+      <p>Herramientas y recursos para diagnosticar y optimizar tu PC.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#herramientas">Herramientas</a>
+      <a href="#instalacion">Instalación</a>
+    </div>
+  </div>
+  <div class="copyright">© 2026 TechOptimize Hub · Las herramientas pertenecen a sus respectivos desarrolladores.</div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div class="modal-title">
+        <div class="modal-title-icon" id="modalIcon">🛠️</div>
+        <div><h3 id="modalTitle">Herramienta</h3></div>
+      </div>
+      <button class="close" onclick="closeInfo()" aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal-content">
+      <div id="modalBody"></div>
+      <a id="modalDownload" class="download modal-download" href="#" download>⬇ Descargar herramienta</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Búsqueda actualizada</div>
+
+<script>
+const toolInfo = {
+  "CPU-Z":{
+    icon:"🧠", file:"downloads/CPU-Z.zip",
+    intro:"CPU-Z es una herramienta de identificación de hardware centrada especialmente en procesador, placa base y memoria.",
+    sections:[
+      ["¿Qué puedes consultar?",["Modelo y características del procesador","Información de placa base y BIOS","Tipo y configuración de memoria RAM","Datos técnicos del sistema"]]
+    ]
+  },
+  "CrystalDiskInfo":{
+    icon:"💾", file:"downloads/CrystalDiskInfo.zip",
+    intro:"CrystalDiskInfo está orientado a la supervisión de unidades de almacenamiento y sus datos S.M.A.R.T.",
+    sections:[
+      ["¿Qué puedes consultar?",["Estado de salud de la unidad","Temperatura","Horas de funcionamiento y otros datos disponibles","Información S.M.A.R.T. de unidades compatibles"]]
+    ]
+  },
+  "HWiNFO64":{
+    icon:"📊", file:"downloads/HWiNFO64.zip",
+    intro:"HWiNFO64 ofrece una vista muy detallada del hardware y de los sensores disponibles.",
+    sections:[
+      ["¿Qué puedes consultar?",["Temperaturas y voltajes","Frecuencias y utilización","Información de CPU, GPU, RAM y placa","Sensores disponibles en tiempo real"]]
+    ]
+  },
+  "Quick-CPU":{
+    icon:"⚙️", file:"downloads/Quick-CPU.zip",
+    intro:"Quick-CPU permite consultar y gestionar diferentes parámetros relacionados con el funcionamiento del procesador y la energía.",
+    sections:[
+      ["Uso recomendado",["Revisar primero los valores actuales","Cambiar únicamente parámetros que conozcas","Comprobar estabilidad después de realizar cambios"]]
+    ]
+  },
+  "GPU-Z":{
+    icon:"🎮", file:"downloads/GPU-Z.zip",
+    intro:"GPU-Z está especializado en la identificación y monitorización de tarjetas gráficas.",
+    sections:[
+      ["¿Qué puedes consultar?",["Modelo de GPU y VRAM","Frecuencias y carga","Bus y enlace PCIe","Versión de BIOS y sensores disponibles"]]
+    ]
+  },
+  "LatencyMon":{
+    icon:"⏱️", file:"downloads/LatencyMon.zip",
+    intro:"LatencyMon analiza la latencia del sistema y ayuda a localizar problemas relacionados con DPC, ISR y controladores.",
+    sections:[
+      ["¿Para qué sirve?",["Investigar problemas de latencia","Detectar controladores con tiempos elevados","Comprobar el comportamiento del sistema durante una prueba"]]
+    ]
+  },
+  "MSI Utility":{
+    icon:"🛠️", file:"downloads/MSI-Utility.zip",
+    intro:"MSI Utility es una herramienta avanzada relacionada con la gestión del modo MSI de dispositivos compatibles.",
+    sections:[
+      ["Precaución",["Haz una copia o anota la configuración original antes de cambiar valores","No actives opciones a ciegas","Si algo empeora, revierte el cambio"]]
+    ]
+  },
+  "TCP Optimizer":{
+    icon:"🌐", file:"downloads/TCP-Optimizer.zip",
+    intro:"TCP Optimizer permite visualizar y modificar distintos parámetros de red de Windows.",
+    sections:[
+      ["Antes de modificar",["Guarda la configuración original","Realiza un cambio cada vez","Comprueba ping y estabilidad después"]]
+    ]
+  },
+  "Timer Resolution":{
+    icon:"⏲️", file:"downloads/TimerResolution.zip",
+    intro:"Timer Resolution permite consultar y trabajar con la resolución del temporizador del sistema.",
+    sections:[
+      ["Uso",["Comprueba primero la resolución actual","Evita mantener ajustes innecesarios si no los necesitas","Prueba la estabilidad después de cualquier cambio"]]
+    ]
+  },
+  "WO Mic":{
+    icon:"🎙️", file:"downloads/WO-Mic.zip",
+    intro:"WO Mic permite utilizar un teléfono compatible como fuente de micrófono para el ordenador.",
+    sections:[
+      ["Funcionamiento",["Instala la parte correspondiente en el PC","Configura el método de conexión disponible","Selecciona el dispositivo como entrada de audio cuando corresponda"]]
+    ]
+  }
+};
+
+const cards=[...document.querySelectorAll(".tool-card")];
+const searchInput=document.getElementById("searchInput");
+const filters=[...document.querySelectorAll(".filter")];
+const noResults=document.getElementById("noResults");
+let activeFilter="all";
+
+function applyFilters(){
+  const q=searchInput.value.toLowerCase().trim();
+  let visible=0;
+
+  cards.forEach(card=>{
+    const text=(card.dataset.search+" "+card.textContent).toLowerCase();
+    const categories=(card.dataset.category||"").split(" ");
+    const matchesText=!q || text.includes(q);
+    const matchesFilter=activeFilter==="all" || categories.includes(activeFilter);
+    const show=matchesText && matchesFilter;
+    card.classList.toggle("hidden",!show);
+    if(show) visible++;
+  });
+  noResults.classList.toggle("show",visible===0);
+}
+
+searchInput.addEventListener("input",applyFilters);
+
+filters.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    filters.forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    activeFilter=btn.dataset.filter;
+    applyFilters();
+  });
+});
+
+function openInfo(name){
+  const data=toolInfo[name];
+  if(!data)return;
+
+  document.getElementById("modalIcon").textContent=data.icon;
+  document.getElementById("modalTitle").textContent=name;
+
+  let html="<h4>Descripción</h4><p>"+data.intro+"</p>";
+  data.sections.forEach(section=>{
+    html+="<h4>"+section[0]+"</h4><ul>";
+    section[1].forEach(item=>html+="<li>"+item+"</li>");
+    html+="</ul>";
+  });
+  html+="<div class='notice'>La información de esta ficha es orientativa. Comprueba siempre la compatibilidad y los cambios antes de aplicar ajustes avanzados.</div>";
+
+  document.getElementById("modalBody").innerHTML=html;
+  document.getElementById("modalDownload").href=data.file;
+  document.getElementById("modal").classList.add("open");
+  document.body.classList.add("modal-open");
+}
+
+function closeInfo(){
+  document.getElementById("modal").classList.remove("open");
+  document.body.classList.remove("modal-open");
+}
+
+document.getElementById("modal").addEventListener("click",e=>{
+  if(e.target.id==="modal")closeInfo();
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")closeInfo();
+});
+
+const menuBtn=document.getElementById("menuBtn");
+const navLinks=document.getElementById("navLinks");
+
+menuBtn.addEventListener("click",()=>navLinks.classList.toggle("mobile-open"));
+navLinks.querySelectorAll("a").forEach(a=>{
+  a.addEventListener("click",()=>navLinks.classList.remove("mobile-open"));
+});
+
+document.querySelectorAll(".download").forEach(link=>{
+  link.addEventListener("click",()=>{
+    const toast=document.getElementById("toast");
+    toast.textContent="📦 Preparando descarga...";
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),1800);
+  });
+});
+</script>
+</body>
+</html>
